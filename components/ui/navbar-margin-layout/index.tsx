@@ -13,9 +13,9 @@ const NavbarMarginLayout: React.FC<NavbarMarginLayoutProps> = ({ children }) => 
         const updateNavbarHeight = () => {
             const upperNavbar = document.querySelector('.bg-\\[\\#FBF1EA\\]');
             const lowerNavbar = document.querySelector('.bg-\\[\\#111111\\]');
-            
+
             let totalHeight = 0;
-            
+
             if (upperNavbar) {
                 totalHeight += upperNavbar.getBoundingClientRect().height;
             }
@@ -47,10 +47,10 @@ const NavbarMarginLayout: React.FC<NavbarMarginLayoutProps> = ({ children }) => 
     return (
         <div className="relative">
             <Navbar />
-            <div 
+            <div
                 className="transition-[padding] duration-200"
-                style={{ 
-                    paddingTop: navbarHeight ? `${navbarHeight}px` : 'var(--navbar-height-fallback, 110px)'
+                style={{
+                    paddingTop: navbarHeight ? `${navbarHeight}px` : 'var(--navbar-height-fallback, 110px)',
                 }}
             >
                 {children}

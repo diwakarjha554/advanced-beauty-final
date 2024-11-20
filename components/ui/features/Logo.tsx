@@ -9,7 +9,11 @@ interface LogoProps {
 
 const Logo: React.FC<LogoProps> = ({ className, onClick }) => {
     return (
-        <Link href={'/'} onClick={onClick} className={`${className} select-none logo-font font-bold text-2xl flex items-center gap-3`}>
+        <Link
+            href={'/'}
+            onClick={onClick}
+            className={`${className} select-none logo-font font-bold text-2xl flex items-center gap-3`}
+        >
             <Image
                 src="/logo/logo_full.png"
                 alt="Logo"

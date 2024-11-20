@@ -7,7 +7,11 @@ interface SectionProps {
 }
 
 const Section: React.FC<SectionProps> = ({ children, className, style }) => {
-    return <section className={`${className} w-full flex justify-center items-center`} style={ style }>{children}</section>;
+    return (
+        <section className={`${className} w-full flex justify-center items-center`} style={style}>
+            {children}
+        </section>
+    );
 };
 
 export default Section;

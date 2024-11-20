@@ -1,4 +1,4 @@
-// 'use client';
+'use client';
 
 import React from 'react';
 import Section from '@/components/ui/features/Section';
@@ -10,7 +10,7 @@ import { BsCart2 } from 'react-icons/bs';
 import Menu from '@/components/navbar/lower-navbar/menu';
 import IconLink from '@/components/footer/footer-bar/icon-link';
 import { BiSolidOffer } from 'react-icons/bi';
-import { toast, Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 const LowerNavbar = () => {
     const isSignedIn = true;

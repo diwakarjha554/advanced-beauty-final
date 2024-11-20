@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
-import { headers } from 'next/headers';
+import { usePathname } from 'next/navigation';
+import React from 'react';
 import { IconType } from 'react-icons';
 
 interface IconLinkProps {
@@ -9,21 +12,18 @@ interface IconLinkProps {
     text?: string;
 }
 
-const IconLink = async ({ icon: Icon, activeIcon: ActiveIcon, href, text }: IconLinkProps) => {
-    const headersList = await headers();
-    const pathname = headersList.get('x-invoke-path') || '';
-    const isActive = pathname === href || (href === '/' && pathname === '');
-
-    const IconComponent = isActive ? ActiveIcon : Icon;
+const IconLink: React.FC<IconLinkProps> = ({ icon: Icon, activeIcon: ActiveIcon, href, text }) => {
+    const pathname = usePathname();
+    const isActive = pathname === href;
 
     return (
         <Link href={href} className="flex flex-col justify-center items-center">
-            <IconComponent size={26} className={isActive ? 'text-[#D9C1A3]' : 'text-[#a3a3a3] hover:text-[#D9C1A3]'} />
-            <p
-                className={`text-[10px] ${
-                    isActive ? 'text-[#D9C1A3] font-semibold' : 'text-[#a3a3a3] hover:text-[#D9C1A3]'
-                }`}
-            >
+            {isActive ? (
+                <ActiveIcon size={26} className="text-[#D9C1A3]" />
+            ) : (
+                <Icon size={26} className="text-[#a3a3a3] hover:text-[#D9C1A3]" />
+            )}
+            <p className={`text-[10px] ${isActive ? 'text-[#D9C1A3] font-semibold' : 'text-[#a3a3a3] hover:text-[#D9C1A3]'}`}>
                 {text}
             </p>
         </Link>
