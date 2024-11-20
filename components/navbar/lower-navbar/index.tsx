@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Section from '@/components/ui/features/Section';
 import Container from '@/components/ui/features/Container';
 import Logo from '@/components/ui/features/Logo';
@@ -11,10 +11,11 @@ import Menu from '@/components/navbar/lower-navbar/menu';
 import IconLink from '@/components/footer/footer-bar/icon-link';
 import { BiSolidOffer } from 'react-icons/bi';
 import { Toaster } from 'react-hot-toast';
+import useCurrentUserStore from '@/store/auth/currentUserStore';
+import { signOut } from 'next-auth/react';
 
 const LowerNavbar = () => {
-    const isSignedIn = true;
-
+    const { currentUser } = useCurrentUserStore();
     return (
         <Section className="py-2 shadow bg-[#111111] text-white">
             <Container className="w-full flex items-center justify-between gap-20">
@@ -28,9 +29,9 @@ const LowerNavbar = () => {
                     <Link href={'/cart'} className="bg-[#D9C1A3] p-2 rounded-full text-neutral-950">
                         <BsCart2 size={20} strokeWidth={0.2} />
                     </Link>
-                    {isSignedIn ? (
+                    {currentUser ? (
                         <button
-                            // onClick={() => signOut()}
+                            onClick={() => signOut()}
                             className="bg-[#D9C1A3] rounded-[2px] p-2 text-neutral-950 font-semibold text-sm"
                         >
                             <span>LOGOUT</span>

@@ -1,0 +1,62 @@
+.heroSection {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: black;
+}
+
+.imageContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+}
+
+.imageContainer.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.imageContainer.active img {
+    animation: zoomOut 7s ease-in-out forwards;
+}
+
+.content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    z-index: 2;
+    width: 100%;
+}
+
+.heroMainTitle {
+    font-size: clamp(1.25rem, -0.0095rem + 8.3969vw, 8.125rem);
+}
+
+.heroSubTitleOne {
+    font-size: clamp(1.125rem, 0.6441rem + 3.2061vw, 3.75rem);
+}
+
+.buyNowButton {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.buyNowButton:hover {
+    text-shadow: none;
+}
+
+@keyframes zoomOut {
+    0% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
