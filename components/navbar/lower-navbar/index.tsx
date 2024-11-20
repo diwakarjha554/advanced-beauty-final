@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Section from '@/components/ui/features/Section';
 import Container from '@/components/ui/features/Container';
 import Logo from '@/components/ui/features/Logo';
