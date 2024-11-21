@@ -30,12 +30,23 @@ const LowerNavbar = () => {
                         <BsCart2 size={20} strokeWidth={0.2} />
                     </Link>
                     {currentUser ? (
-                        <button
-                            onClick={() => signOut()}
-                            className="bg-[#D9C1A3] rounded-[2px] p-2 text-neutral-950 font-semibold text-sm"
-                        >
-                            <span>LOGOUT</span>
-                        </button>
+                        <>
+                            {currentUser.isAdmin ? (
+                                <Link
+                                    href={'/admin/dashboard'}
+                                    className="bg-[#D9C1A3] rounded-[2px] p-2 text-neutral-950 font-semibold text-sm"
+                                >
+                                    <span>Dashboard</span>
+                                </Link>
+                            ) : (
+                                <button
+                                    onClick={() => signOut()}
+                                    className="bg-[#D9C1A3] rounded-[2px] p-2 text-neutral-950 font-semibold text-sm"
+                                >
+                                    <span>LOGOUT</span>
+                                </button>
+                            )}
+                        </>
                     ) : (
                         <Link
                             href={'/auth'}

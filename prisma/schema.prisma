@@ -50,3 +50,26 @@ model Session {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+model serviceCategory {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String   @unique
+  imageSrc    String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model service {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  imageSrc    String
+  category    String
+  title       String   @unique
+  description String
+  price       Float
+  discount    Float
+  otherInfo   Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
