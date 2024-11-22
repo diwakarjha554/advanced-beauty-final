@@ -11,7 +11,7 @@ import { fetchSingleServiceItemFromEachCategory } from '@/actions/admin/service/
 async function HomeServiceSection()  {
     const result = await fetchSingleServiceItemFromEachCategory();
     const carouselItems = result?.items?.map((card, index) => (
-        <Servicecard key={index} src={card.imageSrc} title={card.title} price={card.price} discount={card.discount} category={card.category}/>
+        <Servicecard key={index} src={card.imageSrc} title={card.title} price={card.price} discount={card.discount} category={card.category} id={card.id}/>
     )) || [];
 
     return (

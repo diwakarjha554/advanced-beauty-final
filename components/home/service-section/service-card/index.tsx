@@ -1,8 +1,12 @@
+'use client';
+
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import HeartButton from '@/components/wishlist/heart-btn';
 
-interface ServicecardProps {
+interface ServiceCardProps {
+    id: string;
     src?: string;
     title: string;
     price: number;
@@ -18,38 +22,58 @@ const formatUrlString = (title: string) => {
         .replace(/^-+|-+$/g, '');
 };
 
-const Servicecard: React.FC<ServicecardProps> = ({ src, title, price, discount, category }) => {
+const ServiceCard: React.FC<ServiceCardProps> = ({ id, src, title, price, discount, category }) => {
+    const discountedPrice = discount > 0 ? Math.round(price * (1 - discount / 100)) : price;
+
     return (
-        <Link
-            href={`/services/${formatUrlString(category)}/${formatUrlString(title)}`}
-            className="group w-full cursor-pointer relative"
-        >
-            <div className="relative overflow-hidden h-[230px]">
-                <Image
-                    fill
-                    src={src || '/SLIDE_01.jpg'}
-                    alt="serviceImg"
-                    className="object-cover group-hover:scale-110 transition-all ease-in-out duration-300 select-none"
-                />
-            </div>
-            <div className="w-full flex flex-col items-center justify-center py-4 gap-2">
-                <span className="text-xs capitalize underline">{category}</span>
-                <span className="uppercase underline font-semibold text-lg">{title}</span>
-                <div className="flex gap-5">
-                    <span className="uppercase font-semibold text-lg">
-                        {discount > 0 ? <>&#8377;{Math.round(price * (1 - discount / 100))}</> : ''}
-                    </span>
-                    {discount > 0 ? (
-                        <s>
-                            <span className="uppercase font-semibold text-lg text-gray-500">&#8377;{price}</span>
-                        </s>
-                    ) : (
-                        <span className="uppercase font-semibold text-lg">&#8377;{price}</span>
-                    )}
+        <div className="w-full">
+            {discount > 0 && (
+                <div className="absolute top-2 left-2 bg-yellow-100 text-black text-sm font-semibold rounded w-8 h-8 flex items-center justify-center shadow-lg z-10 px-5">
+                    {discount}%
+                </div>
+            )}
+            <div className="relative overflow-hidden h-[230px] shadow-md">
+                <div className="w-full h-full">
+                    <Link
+                        href={`/services/${formatUrlString(category)}/${formatUrlString(title)}`}
+                        className="block w-full h-full"
+                    >
+                        <div className="w-full h-full relative">
+                            <Image
+                                fill
+                                src={src || '/SLIDE_01.jpg'}
+                                alt={title}
+                                className="object-cover hover:scale-110 transition-all ease-in-out duration-300 select-none"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            />
+                        </div>
+                    </Link>
+                </div>
+                <div className="absolute top-3 right-3 z-10">
+                    <HeartButton listingId={id} />
                 </div>
             </div>
-        </Link>
+            <div className="w-full flex flex-col items-center justify-center py-4 gap-2">
+                <Link href={`/services/${formatUrlString(category)}`} className="text-xs uppercase hover:underline">
+                    {category}
+                </Link>
+                <Link
+                    href={`/services/${formatUrlString(category)}/${formatUrlString(title)}`}
+                    className="uppercase underline font-semibold text-lg text-center px-2"
+                >
+                    {title}
+                </Link>
+                <div className="flex gap-5">
+                    {discount > 0 && (
+                        <s className="text-neutral-400">
+                            <span className="uppercase font-semibold text-lg">₹{price}</span>
+                        </s>
+                    )}
+                    <span className="uppercase font-semibold text-lg text-red-700">₹{discountedPrice}</span>
+                </div>
+            </div>
+        </div>
     );
 };
 
-export default Servicecard;
+export default ServiceCard;

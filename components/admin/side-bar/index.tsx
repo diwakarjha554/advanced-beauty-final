@@ -87,14 +87,14 @@ const DashboardSideBar = () => {
                     <SidebarGroupLabel>Manage shop</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <Link
-                            href={'/admin/create/shop-category'}
-                            className={getLinkClassName('/admin/create/shop-category')}
+                            href={'/admin/create/shop/shop-category'}
+                            className={getLinkClassName('/admin/create/shop/shop-category')}
                         >
                             Shop category
                         </Link>
                     </SidebarGroupContent>
                     <SidebarGroupContent>
-                        <Link href={'/admin/create/shop-item'} className={getLinkClassName('/admin/create/shop-item')}>
+                        <Link href={'/admin/create/shop/shop-item'} className={getLinkClassName('/admin/create/shop/shop-item')}>
                             Shop item
                         </Link>
                     </SidebarGroupContent>

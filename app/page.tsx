@@ -12,9 +12,9 @@ import ReviewSection from '@/components/home/review-section';
 import HomeAwardsSection from '@/components/home/awards-section';
 import HomeCertificatesSection from '@/components/home/certificates-section';
 import HomeFAQSection from '@/components/home/faq-section';
+import HomeSubscribeNewsletter from '@/components/home/subscribe-newsletter';
 
 const page = () => {
-    
     return (
         <main className="flex min-h-screen flex-col items-center justify-start min-w-screen overflow-x-hidden relative">
             <Navbar />
@@ -28,6 +28,7 @@ const page = () => {
             <HomeAwardsSection />
             <HomeCertificatesSection />
             <HomeFAQSection />
+            <HomeSubscribeNewsletter />
             <FooterBar />
             <Footer />
         </main>
