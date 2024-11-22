@@ -2,9 +2,9 @@ import React from 'react';
 import GetServiceItem from '@/components/services/service-item';
 
 interface PageProps {
-    params: {
+    params: Promise<{
         category: string;
-    };
+    }>;
 }
 
 const Page = async ({ params }: PageProps) => {
