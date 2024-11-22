@@ -23,7 +23,7 @@ const Services = () => {
             try {
                 const result = await fetchServiceCategories();
                 if (result.success && result.categories) {
-                    const reversedCategories = [...result.categories].reverse();
+                    const reversedCategories = [...result.categories];
                     setCategories(reversedCategories);
                 }
             } finally {

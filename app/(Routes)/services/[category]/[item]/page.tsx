@@ -2,9 +2,9 @@ import React from 'react';
 import ServiceItemDetail from '@/components/services/service-item/service-item-detail';
 
 interface PageProps {
-    params: {
+    params: Promise<{
         item: string;
-    };
+    }>;
 }
 
 const page = async ({ params }: PageProps) => {
