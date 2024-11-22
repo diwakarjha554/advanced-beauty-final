@@ -1,15 +1,21 @@
-import React, { useCallback } from 'react';
-import { getServiceItems } from '@/actions/service/service-item.actions';
+import React from 'react';
+
 import Container from '@/components/ui/features/Container';
 import Section from '@/components/ui/features/Section';
 import { Skeleton } from '@/components/ui/skeleton';
 import { notFound } from 'next/navigation';
+import { fetchOneServiceItems, fetchServiceItems, ServiceItem } from '@/actions/admin/service/service-item.actions';
 
 interface PageProps {
-    params: {
-        category: string;
-        item: string; // Changed from id to item
-    };
+    params: Promise<{
+        item: string;
+    }>;
+}
+
+interface ServiceItemResponse {
+    success: boolean;
+    items?: ServiceItem[]; // Assuming `ServiceItem` is your type
+    error?: string;
 }
 
 const formatUrlToTitle = (urlString: string) => {
@@ -17,18 +23,27 @@ const formatUrlToTitle = (urlString: string) => {
         .split('-')
         .map((word) => {
             if (word.toLowerCase() === 'and') return '&';
-            return word.charAt(0).toUpperCase() + word.slice(1);
+            return word.charAt(0).toLowerCase() + word.slice(1);
         })
         .join(' ');
 };
 
 async function ServiceItemDetail({ params }: PageProps) {
-    const services = await getServiceItems();
-    const serviceItemTitle = formatUrlToTitle(params.item);
+    const resolvedParams = await params;
+    const serviceItemTitle = formatUrlToTitle(resolvedParams.item);
+    console.log(serviceItemTitle);
+    const response: ServiceItemResponse = await fetchOneServiceItems(serviceItemTitle); // Assuming this returns the proper structure
+
+    // Check if the response is successful and has items
+    if (!response.success || !response.items) {
+        notFound(); // Handle the case where no items were found or response was unsuccessful
+    }
+
+    const services = response.items; // Now `services` is properly typed as `ServiceItem[]`
     const service = services.find((s) => s.title === serviceItemTitle);
 
     if (!service) {
-        notFound();
+        notFound(); // If the service isn't found, handle that case
     }
 
     // Calculate discounted price and percentage with rounding

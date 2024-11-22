@@ -4,13 +4,12 @@ import React, { useEffect, useState } from 'react';
 import Section from '../ui/features/Section';
 import Container from '../ui/features/Container';
 import ImageCard from '../ui/cards/ImageCard';
-import { GetCategoryData, getServiceCategory } from '@/actions/service/service-category.actions';
+import { fetchServiceCategories, ServiceCategory } from '@/actions/admin/service/service-category.actions';
 
 const Services = () => {
-    const [categories, setCategories] = useState<GetCategoryData[]>([]);
+    const [categories, setCategories] = useState<ServiceCategory[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Add this helper function
     const formatUrlString = (title: string) => {
         return title
             .toLowerCase()
@@ -22,8 +21,11 @@ const Services = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const data = await getServiceCategory();
-                setCategories(data);
+                const result = await fetchServiceCategories();
+                if (result.success && result.categories) {
+                    const reversedCategories = [...result.categories].reverse();
+                    setCategories(reversedCategories);
+                }
             } finally {
                 setIsLoading(false);
             }
@@ -32,7 +34,7 @@ const Services = () => {
     }, []);
 
     return (
-        <Section className="py-8 sm:py-12 md:py-16 lg:py-20">
+        <Section className="py-8 sm:py-12 md:py-16 lg:py-20 mb-10 md:mb-20">
             <Container className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                     {isLoading
