@@ -33,7 +33,7 @@ const ImageCard = ({ src, alt, href, title, isLoading = false }: ImageCardProps)
                 <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent" />
                 {title && (
                     <div className="absolute bottom-4 left-4 text-white">
-                        <h3 className="text-lg sm:text-xl font-semibold group-hover:underline">
+                        <h3 className="text-lg sm:text-xl font-semibold group-hover:underline capitalize">
                             {title}
                         </h3>
                     </div>

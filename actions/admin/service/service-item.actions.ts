@@ -134,7 +134,7 @@ export async function fetchOneServiceItems(serviceTitle?: string): Promise<{
         if (serviceTitle) {
             const items = await prisma.service.findMany({
                 where: {
-                    category: {
+                    title: {
                         equals: serviceTitle,
                         mode: 'insensitive', // Makes the search case-insensitive
                     },

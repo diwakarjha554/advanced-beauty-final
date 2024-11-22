@@ -118,7 +118,7 @@ async function GetServiceItem({ params }: PageProps) {
                                     className="absolute inset-0 w-full h-full object-cover rounded-lg"
                                 />
                             </div>
-                            <h2 className="text-2xl font-semibold mb-3 line-clamp-2">{service.title}</h2>
+                            <h2 className="text-2xl font-semibold mb-3 line-clamp-2 capitalize">{service.title}</h2>
                             <p className="text-gray-600 mb-4 line-clamp-3 text-sm md:text-base">
                                 {service.description}
                             </p>

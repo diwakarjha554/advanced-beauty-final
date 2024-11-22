@@ -139,10 +139,12 @@ const ServiceItemManagement = () => {
         setIsLoading((prev) => ({ ...prev, create: true }));
 
         try {
+            const lowerCaseTitle = title.toLowerCase();
+            const lowerCaseCategory = category.toLowerCase();
             const serviceData = {
-                title,
-                description,
-                category,
+                title: lowerCaseTitle,
+                description: description,
+                category: lowerCaseCategory,
                 imageSrc,
                 price: parseFloat(price),
                 discount: parseFloat(discount),

@@ -5,6 +5,7 @@ import Section from '@/components/ui/features/Section';
 import { Skeleton } from '@/components/ui/skeleton';
 import { notFound } from 'next/navigation';
 import { fetchOneServiceItems, fetchServiceItems, ServiceItem } from '@/actions/admin/service/service-item.actions';
+import Image from 'next/image';
 
 interface PageProps {
     params: Promise<{
@@ -33,7 +34,7 @@ async function ServiceItemDetail({ params }: PageProps) {
     const serviceItemTitle = formatUrlToTitle(resolvedParams.item);
     console.log(serviceItemTitle);
     const response: ServiceItemResponse = await fetchOneServiceItems(serviceItemTitle); // Assuming this returns the proper structure
-
+    console.log(response.items);
     // Check if the response is successful and has items
     if (!response.success || !response.items) {
         notFound(); // Handle the case where no items were found or response was unsuccessful
@@ -57,9 +58,11 @@ async function ServiceItemDetail({ params }: PageProps) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 bg-white rounded-2xl shadow-lg p-6 lg:p-8">
                     {/* Image Section - Enhanced */}
                     <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
-                        <img
+                        <Image
                             src={service.imageSrc}
                             alt={service.title}
+                            width={1000}
+                            height={1000}
                             className="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
                         />
                     </div>

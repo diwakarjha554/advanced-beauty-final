@@ -34,7 +34,6 @@ const ServiceCategoryManagement = () => {
     const [description, setDescription] = useState('');
     const [imageSrc, setImageSrc] = useState('');
     const [imagePreview, setImagePreview] = useState<string | null>(null);
-    const [uploadProgress, setUploadProgress] = useState(0);
     const [categories, setCategories] = useState<ServiceCategory[]>([]);
     const [editingCategory, setEditingCategory] = useState<ServiceCategory | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
@@ -57,6 +56,7 @@ const ServiceCategoryManagement = () => {
                     setCategories(result.categories);
                 }
             } catch (error) {
+                console.log(error);
                 toast.error('Failed to fetch categories');
             } finally {
                 setIsLoading((prev) => ({ ...prev, fetch: false }));
@@ -76,7 +76,6 @@ const ServiceCategoryManagement = () => {
         reader.readAsDataURL(file);
 
         setIsLoading((prev) => ({ ...prev, upload: true }));
-        setUploadProgress(0);
 
         try {
             const result = await uploadImageToDrive(file);
@@ -88,6 +87,7 @@ const ServiceCategoryManagement = () => {
                 toast.error(result.error || 'Image upload failed');
             }
         } catch (error) {
+            console.log(error);
             toast.error('Image upload failed');
         } finally {
             setIsLoading((prev) => ({ ...prev, upload: false }));
@@ -103,7 +103,12 @@ const ServiceCategoryManagement = () => {
         setIsLoading((prev) => ({ ...prev, create: true }));
 
         try {
-            const categoryData = { title, description, imageSrc };
+            const lowerCaseTitle = title.toLowerCase();
+            const categoryData = { 
+                title: lowerCaseTitle, 
+                description: description, 
+                imageSrc 
+            };
 
             let result: any;
             if (editingCategory) {
@@ -190,7 +195,7 @@ const ServiceCategoryManagement = () => {
                 </CardHeader>
                 <CardContent>
                     <div className="space-y-4">
-                        <Input placeholder="Category Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+                        <Input placeholder="Category Title" value={title} onChange={(e) => setTitle(e.target.value)}/>
                         <Textarea
                             placeholder="Category Description"
                             value={description}
