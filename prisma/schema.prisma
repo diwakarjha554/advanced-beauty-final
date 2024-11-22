@@ -73,3 +73,36 @@ model service {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+model shopCategory {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String   @unique
+  imageSrc    String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model shop {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  imageSrc    String
+  category    String
+  title       String   @unique
+  description String
+  price       Float
+  discount    Float
+  otherInfo   Json?
+  quantity    Int
+  type        String   @default("shop")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model review {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  imageSrc   String
+  name       String
+  reviewText String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}

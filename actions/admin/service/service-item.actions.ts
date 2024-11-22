@@ -13,6 +13,7 @@ export type ServiceItem = {
     price: number;
     discount: number;
     category: string;
+    type: string;
     createdAt: Date;
     updatedAt: Date;
 };
@@ -151,5 +152,41 @@ export async function fetchOneServiceItems(serviceTitle?: string): Promise<{
     } catch (error) {
         console.error('Fetch service items error:', error);
         return { success: false, error: 'Failed to fetch service items' };
+    }
+}
+
+export async function fetchSingleServiceItemFromEachCategory(): Promise<{
+    success: boolean;
+    items?: ServiceItem[];
+    error?: string;
+}> {
+    try {
+        const categories = await prisma.service.findMany({
+            distinct: ['category'],
+            select: {
+                category: true,
+            },
+        });
+
+        const items = await Promise.all(
+            categories.map(async (category) => {
+                const item = await prisma.service.findFirst({
+                    where: {
+                        category: {
+                            equals: category.category,
+                        },
+                    },
+                    orderBy: {
+                        createdAt: 'desc',
+                    },
+                });
+                return item;
+            })
+        );
+
+        return { success: true, items: items.filter((item) => item !== null) }; // Filter out null items
+    } catch (error) {
+        console.error('Fetch single service item from each category error:', error);
+        return { success: false, error: 'Failed to fetch service items from each category' };
     }
 }

@@ -69,10 +69,10 @@ async function ServiceItemDetail({ params }: PageProps) {
 
                     {/* Content Section - Enhanced */}
                     <div className="flex flex-col">
-                        <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">{service.title}</h1>
+                        <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800 capitalize">{service.title}</h1>
                         <p className="mb-2 text-gray-700">
                             <strong>Category: </strong>
-                            {service.category}
+                            {service.category}, {service.type}
                         </p>
                         <p className="text-gray-600 mb-6 leading-relaxed">{service.description}</p>
 

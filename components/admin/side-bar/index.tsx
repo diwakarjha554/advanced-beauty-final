@@ -99,6 +99,36 @@ const DashboardSideBar = () => {
                         </Link>
                     </SidebarGroupContent>
                 </SidebarGroup>
+                <SidebarGroup>
+                    <SidebarGroupLabel>Manage Orders</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <Link
+                            href={'/admin/create/service-category'}
+                            className={getLinkClassName('/admin/create/service-category')}
+                        >
+                            Service category
+                        </Link>
+                    </SidebarGroupContent>
+                    <SidebarGroupContent>
+                        <Link
+                            href={'/admin/create/service-item'}
+                            className={getLinkClassName('/admin/create/service-item')}
+                        >
+                            Service item
+                        </Link>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+                <SidebarGroup>
+                    <SidebarGroupLabel>Manage Reviews</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <Link
+                            href={'/admin/create/home-reviews'}
+                            className={getLinkClassName('/admin/create/home-reviews')}
+                        >
+                            Home reviews
+                        </Link>
+                    </SidebarGroupContent>
+                </SidebarGroup>
             </SidebarContent>
 
             <div className="border-b border-gray-700 mb-1"></div>
