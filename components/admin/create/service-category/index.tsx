@@ -29,6 +29,13 @@ import { uploadImageToDrive } from '@/actions/google-drive-upload/googleDriveUpl
 import toast from 'react-hot-toast';
 import Image from 'next/image';
 
+interface ApiResponse {
+    success: boolean;
+    category?: ServiceCategory;
+    categories?: ServiceCategory[];
+    error?: string;
+}
+
 const ServiceCategoryManagement = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -110,7 +117,7 @@ const ServiceCategoryManagement = () => {
                 imageSrc 
             };
 
-            let result: any;
+            let result: ApiResponse;
             if (editingCategory) {
                 result = await updateServiceCategory(editingCategory.id, categoryData);
                 if (result.success) {
@@ -138,6 +145,7 @@ const ServiceCategoryManagement = () => {
             setImageSrc('');
             setImagePreview(null);
         } catch (error) {
+            console.log(error);
             toast.error('An error occurred');
         } finally {
             setIsLoading((prev) => ({ ...prev, create: false }));
@@ -171,6 +179,7 @@ const ServiceCategoryManagement = () => {
                 toast.error('Failed to delete category');
             }
         } catch (error) {
+            console.log(error);
             toast.error('An error occurred');
         } finally {
             setIsLoading((prev) => ({ ...prev, delete: '' }));

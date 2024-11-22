@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import useCurrentUserStore from '@/store/auth/currentUserStore';
+import Image from 'next/image';
 
 const AuthPage = () => {
     const router = useRouter();
@@ -59,10 +60,13 @@ const AuthPage = () => {
                     onClick={handleSignIn}
                     className="bg-white border border-gray-300 rounded-sm py-2 font-medium flex items-center justify-center gap-2"
                 >
-                    <img
+                    <Image
                         src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                        width={1000}
+                        height={1000}
                         alt="Google logo"
                         className="w-5 h-5"
+                        priority
                     />
                     Login with Google
                 </button>

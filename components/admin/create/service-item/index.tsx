@@ -27,6 +27,7 @@ import {
     createServiceItem,
     deleteServiceItem,
     fetchServiceItems,
+    ServiceItem,
     updateServiceItem,
 } from '@/actions/admin/service/service-item.actions';
 
@@ -38,7 +39,14 @@ interface Service {
     description: string;
     price: number;
     discount: number;
-    otherInfo?: Record<string, any>;
+    otherInfo?: Record<string, string>;
+}
+
+interface ApiResponse {
+    success: boolean;
+    item?: ServiceItem;
+    items?: ServiceItem[];
+    error?: string;
 }
 
 const ServiceItemManagement = () => {
@@ -81,6 +89,7 @@ const ServiceItemManagement = () => {
                     setServices(servicesResult.items);
                 }
             } catch (error) {
+                console.log(error);
                 toast.error('Failed to fetch data');
             } finally {
                 setIsLoading((prev) => ({ ...prev, fetch: false }));
@@ -110,6 +119,7 @@ const ServiceItemManagement = () => {
                 toast.error(result.error || 'Image upload failed');
             }
         } catch (error) {
+            console.log(error);
             toast.error('Image upload failed');
         } finally {
             setIsLoading((prev) => ({ ...prev, upload: false }));
@@ -126,6 +136,7 @@ const ServiceItemManagement = () => {
             try {
                 JSON.parse(otherInfo);
             } catch (error) {
+                console.log(error);
                 toast.error('Invalid JSON in Other Info field');
                 return false;
             }
@@ -151,7 +162,7 @@ const ServiceItemManagement = () => {
                 ...(otherInfo.trim() && { otherInfo: JSON.parse(otherInfo) }),
             };
 
-            let result:any;
+            let result: ApiResponse;
             if (editingService) {
                 result = await updateServiceItem(editingService.id, serviceData);
                 if (result.success) {
@@ -171,6 +182,7 @@ const ServiceItemManagement = () => {
 
             resetForm();
         } catch (error) {
+            console.log(error);
             toast.error('An error occurred');
         } finally {
             setIsLoading((prev) => ({ ...prev, create: false }));
@@ -210,6 +222,7 @@ const ServiceItemManagement = () => {
                 toast.success('Service deleted successfully');
             }
         } catch (error) {
+            console.log(error);
             toast.error('Failed to delete service');
         } finally {
             setIsLoading((prev) => ({ ...prev, delete: '' }));

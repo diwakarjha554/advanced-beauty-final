@@ -22,7 +22,7 @@ const nextConfig = {
             },
             {
                 protocol: 'https',
-                hostname: 'images.pexels.com',
+                hostname: 'www.gstatic.com',
                 port: '',
                 pathname: '/**',
             },

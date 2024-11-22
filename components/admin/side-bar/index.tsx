@@ -35,13 +35,13 @@ const DashboardSideBar = () => {
         if (!isAdmin) {
             router.push('/');
         }
-    }, []);
+    }, [router]);
 
     const handleLogout = () => {
         signOut();
     };
 
-    const getLinkClassName = (href: any) => {
+    const getLinkClassName = (href: string) => {
         return `w-full flex gap-2 items-center hover:bg-neutral-700 py-2 px-3 rounded cursor-pointer transition-colors duration-200 ${
             pathname === href ? 'bg-neutral-800' : ''
         }`;
