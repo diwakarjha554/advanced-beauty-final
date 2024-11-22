@@ -4,7 +4,7 @@ import Container from '@/components/ui/features/Container';
 import Section from '@/components/ui/features/Section';
 import { Skeleton } from '@/components/ui/skeleton';
 import { notFound } from 'next/navigation';
-import { fetchOneServiceItems, fetchServiceItems, ServiceItem } from '@/actions/admin/service/service-item.actions';
+import { fetchOneServiceItems, ServiceItem } from '@/actions/admin/service/service-item.actions';
 import Image from 'next/image';
 
 interface PageProps {
