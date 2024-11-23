@@ -1,7 +1,6 @@
 import Container from '@/components/ui/features/Container';
 import Section from '@/components/ui/features/Section';
 import React from 'react';
-import { HomeServices } from '@/data/homeServices';
 import { FiArrowRight } from 'react-icons/fi';
 import ShopCard from '@/components/home/shop-section/shop-card';
 import Link from 'next/link';
