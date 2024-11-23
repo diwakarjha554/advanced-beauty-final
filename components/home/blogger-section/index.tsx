@@ -7,8 +7,8 @@ import MainTitle from '@/components/ui/title/main-title';
 const HomeBloggerSection = () => {
     return (
         <Section className="py-16 md:py-20">
-            <Container className='w-full'>
-                <MainTitle heading='Our Bloggers' subheading='Explore our Instagram highlights!'/>
+            <Container className="w-full">
+                <MainTitle heading="Our Bloggers" subheading="Explore our Instagram highlights!" />
                 <div className="flex gap-5 flex-wrap mt-10">
                     <div className="max-w-lg mx-auto">
                         <InstagramEmbed postUrl="https://www.instagram.com/reel/C3xLL_HNXg2/" />

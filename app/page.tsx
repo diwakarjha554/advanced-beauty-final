@@ -13,6 +13,8 @@ import HomeAwardsSection from '@/components/home/awards-section';
 import HomeCertificatesSection from '@/components/home/certificates-section';
 import HomeFAQSection from '@/components/home/faq-section';
 import HomeSubscribeNewsletter from '@/components/home/subscribe-newsletter';
+import { WhatsAppSolid } from '@/public/svgs';
+import ScrollToTop from '@/components/ui/features/ScrollToTop';
 
 const page = () => {
     return (
@@ -31,6 +33,23 @@ const page = () => {
             <HomeSubscribeNewsletter />
             <FooterBar />
             <Footer />
+            <div className="fixed bottom-24 lg:bottom-10 right-3 cursor-pointer flex flex-col gap-3 z-40">
+                <ScrollToTop />
+                <a
+                    href={`https://api.whatsapp.com/send?phone=%2B918826207080`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className=""
+                >
+                    <WhatsAppSolid
+                        height="2.5rem"
+                        width="2.5rem"
+                        fillColor="#FF5956"
+                        strokeWidth="0"
+                        strokeColor="currentColor"
+                    />
+                </a>
+            </div>
         </main>
     );
 };
