@@ -24,14 +24,8 @@ const formatUrlString = (title: string) => {
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ id, src, title, price, discount, category }) => {
     const discountedPrice = discount > 0 ? Math.round(price * (1 - discount / 100)) : price;
-
     return (
         <div className="w-full">
-            {discount > 0 && (
-                <div className="absolute top-2 left-2 bg-yellow-100 text-black text-sm font-semibold rounded w-8 h-8 flex items-center justify-center shadow-lg z-10 px-5">
-                    {discount}%
-                </div>
-            )}
             <div className="relative overflow-hidden h-[230px] shadow-md">
                 <div className="w-full h-full">
                     <Link
@@ -49,6 +43,11 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ id, src, title, price, discou
                         </div>
                     </Link>
                 </div>
+                {discount > 0 && (
+                    <div className="absolute top-2 left-2 bg-yellow-100 text-black text-sm font-semibold rounded w-fit h-8 flex items-center justify-center shadow-lg z-10 px-2">
+                        {discount}% OFF
+                    </div>
+                )}
                 <div className="absolute top-3 right-3 z-10">
                     <HeartButton listingId={id} />
                 </div>

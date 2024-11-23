@@ -6,6 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { notFound } from 'next/navigation';
 import { fetchOneServiceItems, ServiceItem } from '@/actions/admin/service/service-item.actions';
 import Image from 'next/image';
+import HeartButton from '@/components/wishlist/heart-btn';
 
 interface PageProps {
     params: Promise<{
@@ -53,8 +54,8 @@ async function ServiceItemDetail({ params }: PageProps) {
     const discountedPrice = hasDiscount ? Math.round(service.price - discountAmount) : service.price;
 
     return (
-        <Section className="py-12 md:py-16 lg:py-20 bg-gray-50">
-            <Container className="w-full mx-auto px-4 sm:px-6 lg:px-8">
+        <Section className="py-10 md:py-16 lg:py-20 bg-gray-50">
+            <Container className="w-full mx-auto px-4 sm:px-6 lg:px-8 mb-20">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 bg-white rounded-2xl shadow-lg p-6 lg:p-8">
                     {/* Image Section - Enhanced */}
                     <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
@@ -65,11 +66,16 @@ async function ServiceItemDetail({ params }: PageProps) {
                             height={1000}
                             className="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
                         />
+                        <div className="absolute top-3 right-3 z-10">
+                            <HeartButton listingId={service.id} />
+                        </div>
                     </div>
 
                     {/* Content Section - Enhanced */}
                     <div className="flex flex-col">
-                        <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800 capitalize">{service.title}</h1>
+                        <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800 capitalize">
+                            {service.title}
+                        </h1>
                         <p className="mb-2 text-gray-700">
                             <strong>Category: </strong>
                             {service.category}, {service.type}

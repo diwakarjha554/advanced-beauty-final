@@ -1,7 +1,8 @@
 import React from 'react';
+import ShopItemManagement from '@/components/admin/create/shop/shop-item';
 
 const page = () => {
-    return <div>page</div>;
+    return <ShopItemManagement />;
 };
 
 export default page;

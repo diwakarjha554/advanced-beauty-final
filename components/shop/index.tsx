@@ -1,14 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Section from '../ui/features/Section';
 import Container from '../ui/features/Container';
 import MainTitle from '../ui/title/main-title';
 import ImageCard from '../ui/cards/ImageCard';
-import { ServiceCategory } from '@/actions/admin/service/service-category.actions';
+import { fetchShopCategories, ShopCategory } from '@/actions/admin/shop/shop-category.actions';
 
 const Shop = () => {
-    const [categories, setCategories] = useState<ServiceCategory[]>([]);
+    const [categories, setCategories] = useState<ShopCategory[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const formatUrlString = (title: string) => {
@@ -18,6 +18,22 @@ const Shop = () => {
             .replace(/[^a-z0-9]+/g, '-')
             .replace(/^-+|-+$/g, '');
     };
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const result = await fetchShopCategories();
+                if (result.success && result.categories) {
+                    const reversedCategories = [...result.categories];
+                    setCategories(reversedCategories);
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchCategories();
+    }, []);
+
     return (
         <Section className="py-8 sm:py-12 md:py-16 lg:py-20 mb-20">
             <Container className="w-full mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-10">
@@ -37,7 +53,7 @@ const Shop = () => {
                                       src={category.imageSrc}
                                       alt={category.title}
                                       title={category.title}
-                                      href={`/services/${formatUrlString(category.title)}`}
+                                      href={`/shop/${formatUrlString(category.title)}`}
                                       isLoading={false}
                                   />
                               </div>

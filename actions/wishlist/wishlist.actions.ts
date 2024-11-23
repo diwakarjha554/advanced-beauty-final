@@ -63,3 +63,47 @@ export async function removeFromWishlist(listingId: string) {
         return { success: false, error: 'Failed to remove item from wishlist' };
     }
 }
+
+export async function getWishlistItems() {
+    try {
+        const currentUser = await getCurrentUser();
+        if (!currentUser) {
+            return {
+                success: false,
+                error: 'Not logged in',
+                items: { services: [], shopItems: [] },
+            };
+        }
+        // Fetch all service items from wishlist
+        const serviceItems = await prisma.service.findMany({
+            where: {
+                id: {
+                    in: currentUser.wishlistIds,
+                },
+            },
+        });
+        // Fetch all shop items from wishlist
+        const shopItems = await prisma.shop.findMany({
+            where: {
+                id: {
+                    in: currentUser.wishlistIds,
+                },
+            },
+        });
+        return {
+            success: true,
+            items: {
+                services: serviceItems,
+                shopItems: shopItems,
+            },
+            wishlistIds: currentUser.wishlistIds,
+        };
+    } catch (error) {
+        console.error('Failed to fetch wishlist items:', error);
+        return {
+            success: false,
+            error: 'Failed to fetch wishlist items',
+            items: { services: [], shopItems: [] },
+        };
+    }
+}
