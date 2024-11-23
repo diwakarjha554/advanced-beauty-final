@@ -32,7 +32,7 @@ const useWishlist = ({ listingId }: UseWishlistProps) => {
             e.stopPropagation();
 
             if (!currentUser) {
-                return router.push('/login');
+                return router.push('/auth');
             }
 
             try {

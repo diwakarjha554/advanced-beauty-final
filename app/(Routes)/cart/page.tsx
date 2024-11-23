@@ -1,5 +1,5 @@
-import Cart from '@/components/cart';
 import React from 'react';
+import Cart from '@/components/cart';
 
 const page = () => {
     return <Cart />;

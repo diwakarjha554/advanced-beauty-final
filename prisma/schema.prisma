@@ -15,6 +15,7 @@ model User {
   password      String?
   image         String?
   wishlistIds   String[]  @db.ObjectId
+  cartIds       String[]  @db.ObjectId
   isAdmin       Boolean   @default(false)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt

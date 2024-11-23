@@ -6,7 +6,7 @@ import { revalidatePath } from 'next/cache';
 
 const prisma = new PrismaClient();
 
-export async function addToWishlist(listingId: string) {
+export async function addToCart(listingId: string) {
     const currentUser = await getCurrentUser();
 
     if (!currentUser) {
@@ -21,21 +21,21 @@ export async function addToWishlist(listingId: string) {
         const user = await prisma.user.update({
             where: { id: currentUser.id },
             data: {
-                wishlistIds: {
+                cartIds: {
                     push: listingId,
                 },
             },
         });
 
-        revalidatePath('/wishlist');
-        return { success: true, wishlistIds: user.wishlistIds };
+        revalidatePath('/cart');
+        return { success: true, cartIds: user.cartIds };
     } catch (error) {
-        console.error('Failed to add item to wishlist:', error);
-        return { success: false, error: 'Failed to add item to wishlist' };
+        console.error('Failed to add item to cart:', error);
+        return { success: false, error: 'Failed to add item to cart' };
     }
 }
 
-export async function removeFromWishlist(listingId: string) {
+export async function removeFromCart(listingId: string) {
     const currentUser = await getCurrentUser();
 
     if (!currentUser) {
@@ -50,60 +50,60 @@ export async function removeFromWishlist(listingId: string) {
         const user = await prisma.user.update({
             where: { id: currentUser.id },
             data: {
-                wishlistIds: {
-                    set: currentUser?.wishlistIds?.filter((id) => id !== listingId),
+                cartIds: {
+                    set: currentUser?.cartIds?.filter((id) => id !== listingId),
                 },
             },
         });
 
-        revalidatePath('/wishlist');
-        return { success: true, wishlistIds: user.wishlistIds };
+        revalidatePath('/cart');
+        return { success: true, cartIds: user.cartIds };
     } catch (error) {
-        console.error('Failed to remove item from wishlist:', error);
-        return { success: false, error: 'Failed to remove item from wishlist' };
+        console.error('Failed to remove item from cart:', error);
+        return { success: false, error: 'Failed to remove item from cart' };
     }
 }
 
-export async function getWishlistItems() {
+export async function getCartItems() {
     try {
         const currentUser = await getCurrentUser();
         if (!currentUser) {
             return {
                 success: false,
                 error: 'Not logged in',
-                items: { services: [], shopItems: [] },
+                items: [],
             };
         }
         // Fetch all service items from wishlist
         const serviceItems = await prisma.service.findMany({
             where: {
                 id: {
-                    in: currentUser.wishlistIds,
+                    in: currentUser.cartIds,
                 },
             },
         });
-        // Fetch all shop items from wishlist
+        // Fetch all shop items from cart
         const shopItems = await prisma.shop.findMany({
             where: {
                 id: {
-                    in: currentUser.wishlistIds,
+                    in: currentUser.cartIds,
                 },
             },
         });
+        // Combine service and shop items into a single array
+        const combinedItems = [...serviceItems, ...shopItems];
+
         return {
             success: true,
-            items: {
-                services: serviceItems,
-                shopItems: shopItems,
-            },
-            wishlistIds: currentUser.wishlistIds,
+            items: combinedItems,
+            cartIds: currentUser.cartIds,
         };
     } catch (error) {
-        console.error('Failed to fetch wishlist items:', error);
+        console.error('Failed to fetch cart items:', error);
         return {
             success: false,
-            error: 'Failed to fetch wishlist items',
-            items: { services: [], shopItems: [] },
+            error: 'Failed to fetch cart items',
+            items: [],
         };
     }
 }

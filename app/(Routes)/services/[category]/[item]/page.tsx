@@ -1,16 +1,44 @@
-import React from 'react';
-import ServiceItemDetail from '@/components/services/service-item/service-item-detail';
+import { fetchOneServiceItems } from '@/actions/admin/service/service-item.actions';
+import { notFound } from 'next/navigation';
+import ServiceItemDetailClient from '@/components/services/service-item/service-item-detail';
+import { Suspense } from 'react';
+import ServiceItemDetailLoading from '@/components/services/service-item/service-item-loading';
 
 interface PageProps {
-    params: Promise<{
+    params: {
         item: string;
-    }>;
+    };
 }
 
+const formatUrlToTitle = (urlString: string) => {
+    return urlString
+        .split('-')
+        .map((word) => {
+            if (word.toLowerCase() === 'and') return '&';
+            return word.charAt(0).toLowerCase() + word.slice(1);
+        })
+        .join(' ');
+};
+
 const page = async ({ params }: PageProps) => {
-    // Create a Promise that resolves with the params
-    const paramsPromise = Promise.resolve(params);
-    return <ServiceItemDetail params={paramsPromise} />;
+    const serviceItemTitle = formatUrlToTitle(params.item);
+    const response = await fetchOneServiceItems(serviceItemTitle);
+
+    if (!response.success || !response.items) {
+        notFound();
+    }
+
+    const service = response.items.find((s) => s.title === serviceItemTitle);
+
+    if (!service) {
+        notFound();
+    }
+
+    return (
+        <Suspense fallback={<ServiceItemDetailLoading />}>
+            <ServiceItemDetailClient service={service} />
+        </Suspense>
+    );
 };
 
 export default page;

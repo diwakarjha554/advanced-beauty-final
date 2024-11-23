@@ -12,6 +12,7 @@ export interface User {
     updatedAt?: string;
     emailVerified?: string | null;
     wishlistIds?: string[];
+    cartIds?: string[];
 }
 
 export async function getSession(): Promise<Session | null> {
