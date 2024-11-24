@@ -108,9 +108,6 @@ export async function fetchServiceItems(categoryTitle?: string): Promise<{
                     createdAt: 'desc',
                 },
             });
-
-            // Log the results
-            console.log(`Found ${items.length} items for category:`, categoryTitle);
             return { success: true, items };
         } else {
             const items = await prisma.service.findMany({

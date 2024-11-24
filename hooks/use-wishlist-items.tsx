@@ -1,6 +1,4 @@
-'use client';
-
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { getWishlistItems } from '@/actions/wishlist/wishlist.actions';
 import useWishlistStore from '@/store/wishlist/wishlistStore';
 import { toast } from 'react-hot-toast';
@@ -14,9 +12,10 @@ interface WishlistItems {
 const useWishlistItems = () => {
     const [items, setItems] = useState<WishlistItems>({ services: [], shopItems: [] });
     const [isLoading, setIsLoading] = useState(true);
-    const { setWishlistIds } = useWishlistStore();
+    const { wishlistIds } = useWishlistStore();
+    const isMounted = useRef(false);
 
-    const fetchWishlistItems = async () => {
+    const fetchWishlistItems = useCallback(async () => {
         try {
             setIsLoading(true);
             const response = await getWishlistItems();
@@ -27,18 +26,36 @@ const useWishlistItems = () => {
             }
 
             setItems(response.items as WishlistItems);
-            setWishlistIds(response.wishlistIds || []);
         } catch (error) {
-            toast.error('Failed to load wishlist items');
             console.error('Error fetching wishlist items:', error);
+            toast.error('Failed to load wishlist items');
         } finally {
             setIsLoading(false);
         }
-    };
-
-    useEffect(() => {
-        fetchWishlistItems();
     }, []);
+
+    // Initial fetch on mount
+    useEffect(() => {
+        if (!isMounted.current) {
+            fetchWishlistItems();
+            isMounted.current = true;
+        }
+    }, [fetchWishlistItems]);
+
+    // Update items when wishlistIds change
+    useEffect(() => {
+        if (isMounted.current) {
+            // Immediately update UI by filtering out removed items
+            setItems(prevItems => ({
+                services: prevItems.services.filter(service => 
+                    wishlistIds.includes(service.id)
+                ),
+                shopItems: prevItems.shopItems.filter(item => 
+                    wishlistIds.includes(item.id)
+                )
+            }));
+        }
+    }, [wishlistIds]);
 
     return {
         items,

@@ -1,7 +1,7 @@
-import { fetchOneServiceItems } from '@/actions/admin/service/service-item.actions';
-import { notFound } from 'next/navigation';
-import ServiceItemDetailClient from '@/components/services/service-item/service-item-detail';
 import { Suspense } from 'react';
+import { notFound } from 'next/navigation';
+import { fetchOneServiceItems } from '@/actions/admin/service/service-item.actions';
+import ServiceItemDetailClient from '@/components/services/service-item/service-item-detail';
 import ServiceItemDetailLoading from '@/components/services/service-item/service-item-loading';
 
 interface PageProps {

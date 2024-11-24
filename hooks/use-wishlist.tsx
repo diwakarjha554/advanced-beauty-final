@@ -1,25 +1,26 @@
-'use client';
-
 import { addToWishlist, removeFromWishlist } from '@/actions/wishlist/wishlist.actions';
 import useWishlistStore from '@/store/wishlist/wishlistStore';
 import useCurrentUserStore from '@/store/auth/currentUserStore';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
 interface UseWishlistProps {
     listingId: string;
+    onWishlistUpdate?: () => void;
 }
 
-const useWishlist = ({ listingId }: UseWishlistProps) => {
+const useWishlist = ({ listingId, onWishlistUpdate }: UseWishlistProps) => {
     const router = useRouter();
     const { currentUser } = useCurrentUserStore();
     const { wishlistIds, setWishlistIds, addItem, removeItem } = useWishlistStore();
+    const initialSyncDone = useRef(false);
 
-    // Sync wishlist store with current user's wishlist
+    // Sync wishlist store with current user's wishlist only on initial load
     useEffect(() => {
-        if (currentUser?.wishlistIds) {
+        if (currentUser?.wishlistIds && !initialSyncDone.current) {
             setWishlistIds(currentUser.wishlistIds);
+            initialSyncDone.current = true;
         }
     }, [currentUser?.wishlistIds, setWishlistIds]);
 
@@ -37,8 +38,10 @@ const useWishlist = ({ listingId }: UseWishlistProps) => {
 
             try {
                 if (hasWishlisted) {
-                    // Optimistic update
+                    // Update local state immediately
                     removeItem(listingId);
+                    
+                    // Make API call
                     const result = await removeFromWishlist(listingId);
 
                     if (!result.success) {
@@ -50,8 +53,10 @@ const useWishlist = ({ listingId }: UseWishlistProps) => {
 
                     toast.success('Removed from wishlist');
                 } else {
-                    // Optimistic update
+                    // Update local state immediately
                     addItem(listingId);
+                    
+                    // Make API call
                     const result = await addToWishlist(listingId);
 
                     if (!result.success) {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { getCartItems } from '@/actions/cart/cart.actions';
 import useCartStore from '@/store/cart/cartStore';
 import { toast } from 'react-hot-toast';
@@ -24,9 +24,11 @@ interface ApiItem {
 const useCartItems = () => {
     const [items, setItems] = useState<CartItem[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const { setCartIds } = useCartStore();
+    const { setCartIds, cartIds } = useCartStore();
+    const prevCartIdsRef = useRef<string[]>([]);
+    const isMounted = useRef(false);
 
-    const mapApiItemToCartItem = (item: ApiItem): CartItem => {
+    const mapApiItemToCartItem = useCallback((item: ApiItem): CartItem => {
         const baseItem = {
             id: item.id,
             imageSrc: item.imageSrc,
@@ -47,12 +49,12 @@ const useCartItems = () => {
             return {
                 ...baseItem,
                 type: 'shop' as const,
-                quantity: item.quantity || 1, // Default to 1 if quantity is missing
+                quantity: item.quantity || 1,
             };
         }
-    };
+    }, []);
 
-    const fetchCartItems = async () => {
+    const fetchCartItems = useCallback(async () => {
         try {
             setIsLoading(true);
             const response = await getCartItems();
@@ -64,18 +66,34 @@ const useCartItems = () => {
 
             const mappedItems = response.items.map(mapApiItemToCartItem);
             setItems(mappedItems);
-            setCartIds(response.cartIds || []);
+
+            // Only update cartIds if they're different
+            if (JSON.stringify(response.cartIds) !== JSON.stringify(cartIds)) {
+                setCartIds(response.cartIds || []);
+            }
         } catch (error) {
-            toast.error('Failed to load cart items');
             console.error('Error fetching cart items:', error);
+            toast.error('Failed to load cart items');
         } finally {
             setIsLoading(false);
         }
-    };
+    }, [mapApiItemToCartItem, setCartIds, cartIds]);
 
+    // Initial fetch on mount
     useEffect(() => {
-        fetchCartItems();
-    }, []);
+        if (!isMounted.current) {
+            fetchCartItems();
+            isMounted.current = true;
+        }
+    }, [fetchCartItems]);
+
+    // Fetch when cartIds change (but only if it's a real change)
+    useEffect(() => {
+        if (isMounted.current && JSON.stringify(prevCartIdsRef.current) !== JSON.stringify(cartIds)) {
+            prevCartIdsRef.current = cartIds;
+            fetchCartItems();
+        }
+    }, [cartIds, fetchCartItems]);
 
     return {
         items,

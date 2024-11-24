@@ -95,18 +95,33 @@ export async function deleteShopItem(id: string) {
     }
 }
 
-export async function fetchShopItems(): Promise<{
+export async function fetchShopItems(categoryTitle?: string): Promise<{
     success: boolean;
     items?: ShopItem[];
     error?: string;
 }> {
     try {
-        const items = await prisma.shop.findMany({
-            orderBy: {
-                createdAt: 'desc',
-            },
-        });
-        return { success: true, items };
+        if (categoryTitle) {
+            const items = await prisma.shop.findMany({
+                where: {
+                    category: {
+                        equals: categoryTitle,
+                        mode: 'insensitive', // Makes the search case-insensitive
+                    },
+                },
+                orderBy: {
+                    createdAt: 'desc',
+                },
+            });
+            return { success: true, items };
+        } else {
+            const items = await prisma.shop.findMany({
+                orderBy: {
+                    createdAt: 'desc',
+                },
+            });
+            return { success: true, items };
+        }
     } catch (error) {
         console.error('Fetch shop items error:', error);
         return { success: false, error: 'Failed to fetch shop items' };

@@ -10,6 +10,7 @@ interface ShopCardProps {
     discount: number;
     id: string;
     category: string;
+    quantity? :number;
 }
 
 const formatUrlString = (title: string) => {
