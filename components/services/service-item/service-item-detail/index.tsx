@@ -70,6 +70,7 @@ const getAvailableTimeSlots = (selectedDate: Date | undefined) => {
 export default function ServiceItemDetailClient({ service }: ServiceItemDetailClientProps) {
     const [selectedDate, setSelectedDate] = useState<Date>();
     const [selectedTime, setSelectedTime] = useState<string>();
+    const [calendarOpen, setCalendarOpen] = useState(false);
 
     const hasDiscount = service.discount > 0;
     const discountAmount = hasDiscount ? Math.round((service.price * service.discount) / 100) : 0;
@@ -80,6 +81,7 @@ export default function ServiceItemDetailClient({ service }: ServiceItemDetailCl
     const handleDateSelect = (date: Date | undefined) => {
         setSelectedDate(date);
         setSelectedTime(undefined);
+        setCalendarOpen(false); // Close the calendar popover after date selection
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -157,7 +159,7 @@ export default function ServiceItemDetailClient({ service }: ServiceItemDetailCl
                                 <form onSubmit={handleSubmit} className="space-y-6">
                                     <div className="space-y-2">
                                         <label className="text-sm font-medium text-gray-700">Preferred Date</label>
-                                        <Popover>
+                                        <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
                                             <PopoverTrigger asChild>
                                                 <Button
                                                     variant="outline"

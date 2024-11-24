@@ -6,7 +6,6 @@ const nextConfig = {
         },
     },
     images: {
-        domains: ['drive.google.com'],
         remotePatterns: [
             {
                 protocol: 'https',

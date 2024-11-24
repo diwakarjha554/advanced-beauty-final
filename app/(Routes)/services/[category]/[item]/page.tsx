@@ -5,9 +5,9 @@ import { Suspense } from 'react';
 import ServiceItemDetailLoading from '@/components/services/service-item/service-item-loading';
 
 interface PageProps {
-    params: {
+    params: Promise<{
         item: string;
-    };
+    }>;
 }
 
 const formatUrlToTitle = (urlString: string) => {
@@ -21,7 +21,8 @@ const formatUrlToTitle = (urlString: string) => {
 };
 
 const page = async ({ params }: PageProps) => {
-    const serviceItemTitle = formatUrlToTitle(params.item);
+    const resolvedParams = await params;
+    const serviceItemTitle = formatUrlToTitle(resolvedParams.item);
     const response = await fetchOneServiceItems(serviceItemTitle);
 
     if (!response.success || !response.items) {

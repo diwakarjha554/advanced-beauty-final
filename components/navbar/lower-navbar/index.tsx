@@ -13,9 +13,12 @@ import { BiSolidOffer } from 'react-icons/bi';
 import { Toaster } from 'react-hot-toast';
 import useCurrentUserStore from '@/store/auth/currentUserStore';
 import { signOut } from 'next-auth/react';
+import useCartItems from '@/hooks/use-cart-items';
 
 const LowerNavbar = () => {
     const { currentUser } = useCurrentUserStore();
+    const { items, isLoading, refreshItems } = useCartItems();
+    const itemLength = items.length;
     return (
         <Section className="py-2 shadow bg-[#111111] text-white">
             <Container className="w-full flex items-center justify-between gap-20">
@@ -26,8 +29,13 @@ const LowerNavbar = () => {
                 </div>
                 <div className="hidden lg:flex items-center gap-5">
                     <Navlinks />
-                    <Link href={'/cart'} className="bg-[#D9C1A3] p-2 rounded-full text-neutral-950">
+                    <Link href={'/cart'} className="relative bg-[#D9C1A3] p-2 rounded-full text-neutral-950">
                         <BsCart2 size={20} strokeWidth={0.2} />
+                        {itemLength > 0 && (
+                            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1">
+                                {itemLength}
+                            </span>
+                        )}
                     </Link>
                     {currentUser ? (
                         <>

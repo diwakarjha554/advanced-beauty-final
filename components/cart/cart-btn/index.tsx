@@ -11,11 +11,12 @@ interface CartButtonProps {
 
 const CartButton: React.FC<CartButtonProps> = ({ listingId, selectedDate, selectedTime }) => {
     const { hasCarted, toggleCart } = UseCart({ listingId });
-
+    
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         // Cast the event type to match what toggleCart expects
         toggleCart(e as unknown as React.MouseEvent<HTMLDivElement>);
+        
     };
 
     return (
@@ -23,7 +24,6 @@ const CartButton: React.FC<CartButtonProps> = ({ listingId, selectedDate, select
             type="button"
             variant="outline"
             className="flex-1"
-            disabled={!selectedDate || !selectedTime}
             onClick={handleClick}
         >
             <ShoppingCart className="mr-2 h-4 w-4" />
