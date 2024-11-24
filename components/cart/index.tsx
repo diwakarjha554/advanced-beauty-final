@@ -114,9 +114,9 @@ const Cart = () => {
             <Container className="w-full">
                 <div className='flex items-center justify-between'>
                     <MainTitle heading="Cart" subheading="Your Shopping Cart is Almost Ready" />
-                    <Button className="w-fit bg-[#D9C1A3] hover:bg-[#c4ac8e] text-neutral-950 mt-6 font-semibold">
+                    <Link href={'/order'} className="w-fit bg-[#D9C1A3] hover:bg-[#c4ac8e] text-neutral-950 mt-6 font-medium py-2 px-5 rounded">
                         Your Orders
-                    </Button>
+                    </Link>
                 </div>
                 <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
                     {/* Cart Items List */}
